@@ -1,0 +1,29 @@
+sparkConfiguration :
+  appName : Cassandra Migrator
+  master : local[*]
+
+cassandraSource:
+  host : 10.10.5.20
+  port : 8125
+  username : cassandra
+  password : cassandra
+  keyStorePath : /home/roshan/Desktop/nn1-server-keystore.jks
+  keyStorePassword : cassandra
+  trustStorePath : /home/roshan/Desktop/generic-server-truststore.jks
+  trustStorePassword : cassandra
+  keyspace : bigmart
+  tables : v_sale_count,v_collection,abc
+  enableSSL : true
+
+cassandraDestination:
+  host : 10.10.5.78
+  port : 32662
+  username : cassandra
+  password : cassandra
+  keyStorePath : /path
+  keyStorePassword : key-store-password
+  trustStorePath : /path
+  trustStorePassword : trust-store-password
+  keyspace : myapps
+  tables : v_sale_count,v_collection,abc
+  enableSSL : false
