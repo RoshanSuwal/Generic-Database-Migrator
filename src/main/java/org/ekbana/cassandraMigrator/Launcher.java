@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
 
 public class Launcher {
     public static void main(String[] args) throws FileNotFoundException {
@@ -41,8 +42,14 @@ public class Launcher {
             CassandraTableMigrator cassandraTableMigrator = new CassandraTableMigrator();
             for (int i = 0; i < sourceTables.length; i++) {
                 System.out.println("source :" + sourceTables[i] + "\tdest :" + destTables[i]);
+//                Long[] counts = new Long[10];
+//                for (int j = 0; j < 10; j++) {
                 Dataset<Row> rowDataset = cassandraTableMigrator.loadFrom(sparkSession, migratorConfiguration.getCassandraSource(), sourceTables[i]);
                 rowDataset.printSchema();
+//                    counts[j] = rowDataset.count();
+//                System.out.println(rowDataset.count());
+//                }
+//                Arrays.stream(counts).forEach(c -> System.out.println(c));
                 cassandraTableMigrator.loadTo(migratorConfiguration.getCassandraDestination(), rowDataset, destTables[i]);
             }
         } else {

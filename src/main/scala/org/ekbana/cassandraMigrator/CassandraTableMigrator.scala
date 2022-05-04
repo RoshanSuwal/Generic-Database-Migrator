@@ -23,6 +23,8 @@ class CassandraTableMigrator {
             .option("spark.cassandra.connection.ssl.keyStore.password", cassandraProps.getKeyStorePassword)
             .option("spark.cassandra.connection.ssl.trustStore.path", cassandraProps.getTrustStorePath)
             .option("spark.cassandra.connection.ssl.trustStore.password", cassandraProps.getTrustStorePassword)
+            .option("spark.cassandra.input.consistency.level","ALL")
+            .option("spark.cassandra.output.consistency.level","ALL")
             .load()
     }else {
       sparkSession.read
@@ -57,6 +59,7 @@ class CassandraTableMigrator {
             .option("spark.cassandra.connection.ssl.keyStore.password", cassandraProps.getKeyStorePassword)
             .option("spark.cassandra.connection.ssl.trustStore.path", cassandraProps.getTrustStorePath)
             .option("spark.cassandra.connection.ssl.trustStore.password", cassandraProps.getTrustStorePassword)
+//            .option("spark.cassandra.input.consistency.level","ALL")
             .save()
     }else {
 
