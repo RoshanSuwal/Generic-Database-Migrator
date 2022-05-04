@@ -39,7 +39,7 @@ cassandraDestination:
   trustStorePath : /path
   trustStorePassword : trust-store-password
   keyspace : keyspace name
-  table : tablenames separated by comma(,)
+  tables : tablenames separated by comma(,)
   enableSSL : false  # true if ssl is enabled
 ```
 
