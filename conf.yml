@@ -1,0 +1,52 @@
+sparkConfiguration :
+  appName : Cassandra Migrator2222
+  master : local[*]
+
+sourceProps :
+  formats :
+    - value : org.apache.spark.sql.cassandra
+
+  options :
+    - key : spark.cassandra.connection.host
+      value : 10.10.5.20
+    - key : spark.cassandra.connection.port
+      value : 8125
+    - key : spark.cassandra.auth.username
+      value : cassandra
+    - key : spark.cassandra.auth.password
+      value : cassandra
+    - key : spark.cassandra.connection.ssl.keyStore.path
+      value : /home/samir/Desktop/Cassandra/nn1-server-keystore.jks
+    - key : spark.cassandra.connection.ssl.keyStore.password
+      value : cassandra
+    - key : spark.cassandra.connection.ssl.trustStore.path
+      value : /home/samir/Desktop/Cassandra/generic-server-truststore.jks
+    - key : spark.cassandra.connection.ssl.trustStore.password
+      value : cassandra
+    - key : keyspace
+      value : fts
+    - key : table
+      value: import_by_commodity
+    - key : spark.cassandra.connection.ssl.clientAuth.enabled
+      value : true
+    - key: spark.cassandra.connection.ssl.enabled
+      value: true
+    - key: spark.cassandra.input.consistency.level
+      value: ALL
+    - key: spark.cassandra.output.consistency.level
+      value: ALL
+    - key: spark.cassandra.read.timeoutMS
+      value: 240000
+
+sinkProps :
+  formats:
+    - value: jdbc
+  options:
+    - key: url
+      value: jdbc:postgresql://localhost:5432/first
+    - key: dtable
+      value: chapter
+    - key: user
+      value: postgres
+    - key: driver
+      value: org.postgresql.Driver
