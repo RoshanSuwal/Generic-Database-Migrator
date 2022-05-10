@@ -8,6 +8,8 @@ class CassandraTableMigrator {
   def loadFrom(sparkSession: SparkSession,cassandraProps: CassandraProps,table:String): DataFrame = {
     println("Loading from : "+cassandraProps)
     println("From Table : "+table)
+    var dfReader = sparkSession.read
+
     if (cassandraProps.isEnableSSL) {
           sparkSession.read
             .format("org.apache.spark.sql.cassandra")
@@ -25,6 +27,9 @@ class CassandraTableMigrator {
             .option("spark.cassandra.connection.ssl.trustStore.password", cassandraProps.getTrustStorePassword)
             .option("spark.cassandra.input.consistency.level","ALL")
             .option("spark.cassandra.output.consistency.level","ALL")
+            .option("spark.cassandra.read.timeoutMS","240000")
+            //            .option("spark.cassandra.input.consistency.level","LOCAL_QUORUM")
+            //            .option("spark.cassandra.output.consistency.level","LOCAL_QUORUM")
             .load()
     }else {
       sparkSession.read
@@ -38,6 +43,7 @@ class CassandraTableMigrator {
         //      .option("spark.cassandra.input.fetch.size_in_rows", 10)
         .load()
     }
+
   }
 
   def loadTo(cassandraProps: CassandraProps, dataFrame: DataFrame,table:String): Unit = {
@@ -74,5 +80,6 @@ class CassandraTableMigrator {
         .option("spark.cassandra.auth.password", cassandraProps.getPassword)
         .save()
     }
+
   }
 }
