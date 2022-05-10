@@ -21,19 +21,24 @@ class GenericMigrator {
 
   def loadTo(dataFrame: DataFrame,sourceProps: Props): Unit = {
     var df = dataFrame.write
-    sourceProps.formats.forEach(x=>{
-      df = df.format(x.getValue)
-      println("[FORMAT] " + x.getValue)
-    })
-    sourceProps.modes.forEach(x=>{
-      df = df.mode(x.getValue)
-      println("[MODE] " + x.getValue)
-    })
-    sourceProps.options.forEach(x=>{
-      df = df.option(x.getKey, x.getValue)
-      println("[OPTION] " + x.getKey + " => " + x.getValue)
-    })
-
+    if (sourceProps.formats != null) {
+      sourceProps.formats.forEach(x => {
+        df = df.format(x.getValue)
+        println("[FORMAT] " + x.getValue)
+      })
+    }
+    if (sourceProps.modes != null) {
+      sourceProps.modes.forEach(x => {
+        df = df.mode(x.getValue)
+        println("[MODE] " + x.getValue)
+      })
+    }
+    if (sourceProps.options != null) {
+      sourceProps.options.forEach(x => {
+        df = df.option(x.getKey, x.getValue)
+        println("[OPTION] " + x.getKey + " => " + x.getValue)
+      })
+    }
     df.save()
   }
 }
