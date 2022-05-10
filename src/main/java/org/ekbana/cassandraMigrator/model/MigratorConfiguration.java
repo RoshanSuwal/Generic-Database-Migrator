@@ -9,9 +9,20 @@ import lombok.Setter;
 public class MigratorConfiguration {
     // spark properties
     private SparkConfiguration sparkConfiguration;
-    // cassandra source properties
-    private CassandraProps cassandraSource;
-    // cassandra destination properties
-    private CassandraProps cassandraDestination;
 
+    // Data Source/Sink Properties
+    private Props sourceProps;
+    private Props sinkProps;
+
+    public SparkConfiguration getSparkConfiguration() {
+        return sparkConfiguration;
+    }
+
+    public Props getSourceProps() {
+        return sourceProps;
+    }
+
+    public Props getSinkProps() {
+        return sinkProps;
+    }
 }

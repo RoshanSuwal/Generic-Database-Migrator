@@ -11,6 +11,7 @@ class SparkConnection {
       .builder()
 //      .config("org.ekbana.bigdata.spark.debug.maxToStringFields", 1000)
       .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+ //     .config("spark.jars", "/home/samir/Desktop/ekbana/DatabaseMigrator1/postgresql-42.3.5.jar")
       .appName(sparkConfiguration.getAppName)
       .master(sparkConfiguration.getMaster)
       .getOrCreate()
