@@ -14,6 +14,8 @@ public class MigratorConfiguration {
     private Props sourceProps;
     private Props sinkProps;
 
+    private String transformer="org.ekbana.cassandraMigrator.transformer.DefaultTransformer";
+
     public SparkConfiguration getSparkConfiguration() {
         return sparkConfiguration;
     }
@@ -24,5 +26,9 @@ public class MigratorConfiguration {
 
     public Props getSinkProps() {
         return sinkProps;
+    }
+
+    public String getTransformer() {
+        return transformer;
     }
 }

@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
@@ -34,13 +34,11 @@ public class Props implements Serializable {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Option implements Serializable {
-        String key;
-        String value;
-
+        private String key;
+        private String value;
         public String getKey() {
             return key.trim();
         }
-
         public String getValue() {
             return value.trim();
         }
@@ -51,8 +49,7 @@ public class Props implements Serializable {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Format implements Serializable {
-        String value;
-
+        private String value;
         public String getValue() {
             return value.trim();
         }
@@ -64,7 +61,6 @@ public class Props implements Serializable {
     @NoArgsConstructor
     public static class Mode implements Serializable {
         String value;
-
         public String getValue() {
             return value.trim();
         }

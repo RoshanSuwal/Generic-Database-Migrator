@@ -1,44 +1,54 @@
 package org.ekbana.cassandraMigrator
 
 import org.apache.spark.sql.{DataFrame, SparkSession}
-import org.ekbana.cassandraMigrator.model.{Props}
+import org.ekbana.cassandraMigrator.model.Props
+import org.slf4j.{Logger, LoggerFactory}
 
 class GenericMigrator {
 
+  val logger:Logger=LoggerFactory.getLogger(classOf[GenericMigrator])
+
   def loadFrom(sparkSession: SparkSession,sourceProps: Props): DataFrame = {
     var df = sparkSession.read
+    logger.info("Configuring the source spark dataframe")
+    logger.info("sparkSession.read")
     sourceProps.getFormats.forEach(x=>{
       df = df.format(x.getValue.trim)
-      println("[FORMAT] " + x.getValue)
+      logger.info("\t.format( {} )", x.getValue)
     })
     sourceProps.options.forEach(x=>{
       df = df.option(x.getKey.trim, x.getValue.trim)
-      println("[OPTION] " + x.getKey + " => " + x.getValue)
+      logger.info(s"\t.option( ${x.getKey} , ${x.getValue} ) ")
     })
 
+    logger.info("\t.load()")
     df.load()
   }
 
   def loadTo(dataFrame: DataFrame,sourceProps: Props): Unit = {
     var df = dataFrame.write
+    logger.info("Configuring the sink spark dataframe")
+    logger.info("dataframe.write")
     if (sourceProps.formats != null) {
       sourceProps.formats.forEach(x => {
         df = df.format(x.getValue)
-        println("[FORMAT] " + x.getValue)
+        logger.info(s"\t.format( ${x.getValue} )")
       })
     }
     if (sourceProps.modes != null) {
       sourceProps.modes.forEach(x => {
         df = df.mode(x.getValue)
-        println("[MODE] " + x.getValue)
+        logger.info(s"\t.mode( ${x.getValue})")
       })
     }
     if (sourceProps.options != null) {
       sourceProps.options.forEach(x => {
         df = df.option(x.getKey, x.getValue)
-        println("[OPTION] " + x.getKey + " => " + x.getValue)
+//        logger.info("\t.option({},{}) ",x.getKey,x.getValue)
+        logger.info(s"\t.option( ${x.getKey}, ${x.getValue}) ")
       })
     }
+    logger.info("\t.save()")
     df.save()
   }
 }
