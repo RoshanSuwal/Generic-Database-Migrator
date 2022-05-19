@@ -41,12 +41,6 @@ public class DatabaseMigrator {
 
         Dataset<Row> rowDataset = genericMigrator.loadFrom(sparkSession, migratorConfiguration.getSourceProps());
         rowDataset.printSchema();
-
-//        rowDataset.explain(true);
-
-        rowDataset=rowDataset.filter("created_at < '2021-01-01 00:00:00'");
-        rowDataset.show();
-
         rowDataset.explain(true);
 
 //        rowDataset=rowDataset.repartition(1000);
@@ -54,8 +48,8 @@ public class DatabaseMigrator {
 //        logger.info("Total records count : {} ",rowDataset.count());
 
 //        logger.info("count : {}",rowDataset.count());
-//        rowDataset = transformer.transform(sparkSession, rowDataset);
-//        genericMigrator.loadTo(rowDataset, migratorConfiguration.getSinkProps());
+        rowDataset = transformer.transform(sparkSession, rowDataset);
+        genericMigrator.loadTo(rowDataset, migratorConfiguration.getSinkProps());
 //        genericMigrator.loadAfterChunking(rowDataset,migratorConfiguration.getSinkProps(),sparkSession);
 
 //        while (true);s
