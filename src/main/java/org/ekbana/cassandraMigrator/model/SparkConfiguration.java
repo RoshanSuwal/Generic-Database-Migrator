@@ -5,17 +5,42 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
-public class SparkConfiguration {
-//    private String serializer;
-    private String appName;
-    private String master;
+import java.io.Serializable;
+import java.util.List;
 
-    public String getAppName() {
-        return appName;
+@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+public class SparkConfiguration implements Serializable {
+//    private String serializer;
+//    private String appName;
+//    private String master;
+
+    public List<Config> configs;
+
+//    public String getAppName() {
+//        return appName;
+//    }
+
+//    public String getMaster() {
+//        return master;
+//    }
+
+    public List<Config> getConfigs() {
+        return configs;
     }
 
-    public String getMaster() {
-        return master;
+    @Getter
+    @Setter
+    @AllArgsConstructor @NoArgsConstructor
+    public static class Config implements Serializable {
+        private String key;
+        private String value;
+
+        public String getKey() {
+            return key;
+        }
+
+        public String getValue() {
+            return value;
+        }
     }
 }

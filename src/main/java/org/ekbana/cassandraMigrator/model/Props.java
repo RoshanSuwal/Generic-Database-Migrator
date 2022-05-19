@@ -17,6 +17,12 @@ public class Props implements Serializable {
     public List<Format> formats;
     public List<Mode> modes;
 
+    public List<String> getFilters() {
+        return filters;
+    }
+
+    public List<String> filters;
+
     public List<Option> getOptions() {
         return options;
     }

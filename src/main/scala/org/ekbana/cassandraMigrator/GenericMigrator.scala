@@ -6,26 +6,40 @@ import org.slf4j.{Logger, LoggerFactory}
 
 class GenericMigrator {
 
-  val logger:Logger=LoggerFactory.getLogger(classOf[GenericMigrator])
+  val logger: Logger = LoggerFactory.getLogger(classOf[GenericMigrator])
 
-  def loadFrom(sparkSession: SparkSession,sourceProps: Props): DataFrame = {
+  def loadFrom(sparkSession: SparkSession, sourceProps: Props): DataFrame = {
     var df = sparkSession.read
     logger.info("Configuring the source spark dataframe")
     logger.info("sparkSession.read")
-    sourceProps.getFormats.forEach(x=>{
+    sourceProps.getFormats.forEach(x => {
       df = df.format(x.getValue.trim)
       logger.info("\t.format( {} )", x.getValue)
     })
-    sourceProps.options.forEach(x=>{
+    sourceProps.options.forEach(x => {
       df = df.option(x.getKey.trim, x.getValue.trim)
       logger.info(s"\t.option( ${x.getKey} , ${x.getValue} ) ")
     })
 
     logger.info("\t.load()")
-    df.load()
+    var dataFrame = df.load()
+
+    sourceProps.filters.forEach(x=>{
+      logger.info(s"\t.filter( ${x})")
+      dataFrame=dataFrame.filter(x);
+    })
+
+    dataFrame
   }
 
-  def loadTo(dataFrame: DataFrame,sourceProps: Props): Unit = {
+  def loadAfterChunking(dataFrame: DataFrame, sinkProps: Props, sparkSession: SparkSession): Unit = {
+    //    dataFrame.foreachPartition {
+    //      partition=>logger.info("partition size : {} ",partition.size)
+    //    }
+  }
+
+  def loadTo(dataFrame: DataFrame, sourceProps: Props): Unit = {
+
     var df = dataFrame.write
     logger.info("Configuring the sink spark dataframe")
     logger.info("dataframe.write")
@@ -44,7 +58,7 @@ class GenericMigrator {
     if (sourceProps.options != null) {
       sourceProps.options.forEach(x => {
         df = df.option(x.getKey, x.getValue)
-//        logger.info("\t.option({},{}) ",x.getKey,x.getValue)
+        //        logger.info("\t.option({},{}) ",x.getKey,x.getValue)
         logger.info(s"\t.option( ${x.getKey}, ${x.getValue}) ")
       })
     }

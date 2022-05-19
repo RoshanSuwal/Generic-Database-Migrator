@@ -1,8 +1,10 @@
 package org.ekbana.cassandraMigrator;
 
+import org.apache.log4j.BasicConfigurator;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
+import org.apache.spark.storage.StorageLevel;
 import org.ekbana.cassandraMigrator.model.MigratorConfiguration;
 import org.ekbana.cassandraMigrator.transformer.Transformer;
 import org.slf4j.Logger;
@@ -21,6 +23,7 @@ public class DatabaseMigrator {
 
     public static void run(String[] args) throws FileNotFoundException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         String config = System.getProperty("config");
+//        BasicConfigurator.configure();
         //String config = "/home/samir/Desktop/ekbana/DatabaseMigrator1/databasemigrator/conf.yml";
 
         logger.info("Configuration file from {}", config);
@@ -37,9 +40,24 @@ public class DatabaseMigrator {
         final Transformer transformer = (Transformer) aClass.newInstance();
 
         Dataset<Row> rowDataset = genericMigrator.loadFrom(sparkSession, migratorConfiguration.getSourceProps());
-
         rowDataset.printSchema();
-        rowDataset = transformer.transform(sparkSession, rowDataset);
-        genericMigrator.loadTo(rowDataset, migratorConfiguration.getSinkProps());
+
+//        rowDataset.explain(true);
+
+        rowDataset=rowDataset.filter("created_at < '2021-01-01 00:00:00'");
+        rowDataset.show();
+
+        rowDataset.explain(true);
+
+//        rowDataset=rowDataset.repartition(1000);
+
+//        logger.info("Total records count : {} ",rowDataset.count());
+
+//        logger.info("count : {}",rowDataset.count());
+//        rowDataset = transformer.transform(sparkSession, rowDataset);
+//        genericMigrator.loadTo(rowDataset, migratorConfiguration.getSinkProps());
+//        genericMigrator.loadAfterChunking(rowDataset,migratorConfiguration.getSinkProps(),sparkSession);
+
+//        while (true);s
     }
 }
