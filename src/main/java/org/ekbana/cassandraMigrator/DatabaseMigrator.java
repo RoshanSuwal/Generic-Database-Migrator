@@ -1,10 +1,8 @@
 package org.ekbana.cassandraMigrator;
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
-import org.apache.spark.storage.StorageLevel;
 import org.ekbana.cassandraMigrator.model.MigratorConfiguration;
 import org.ekbana.cassandraMigrator.transformer.Transformer;
 import org.slf4j.Logger;
@@ -22,7 +20,8 @@ public class DatabaseMigrator {
     public static final Logger logger = LoggerFactory.getLogger(DatabaseMigrator.class);
 
     public static void run(String[] args) throws FileNotFoundException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        String config = System.getProperty("config");
+//        String config = System.getProperty("config");
+        String config = args[0];
 //        BasicConfigurator.configure();
         //String config = "/home/samir/Desktop/ekbana/DatabaseMigrator1/databasemigrator/conf.yml";
 
@@ -30,6 +29,21 @@ public class DatabaseMigrator {
         InputStream inputStream = new FileInputStream(new File(config));
         Yaml yaml = new Yaml(new Constructor(MigratorConfiguration.class));
         MigratorConfiguration migratorConfiguration = yaml.load(inputStream);
+
+//        MigratorConfiguration migratorConfiguration1=new MigratorConfiguration();
+
+//        Props sourceProps=new Props();
+//        sourceProps.setFormats(Arrays.asList(
+//                new Props.Format("org.apache.spark.sql.cassandra")
+//        ));
+//
+//        sourceProps.setOptions(Arrays.asList(
+//                new Props.Option("spark.cassandra.connection.host","10.10.5.20"),
+//                new Props.Option("spark.cassandra.connection.port","8125"),
+//                new Props.Option("spark.cassandra.auth.username","cassandra"),
+//                new Props.Option("spark.cassandra.auth.password","cassandra")
+//
+//        ));
 
         SparkSession sparkSession = new SparkConnection().init(migratorConfiguration.getSparkConfiguration());
 
@@ -47,9 +61,10 @@ public class DatabaseMigrator {
 
 //        logger.info("Total records count : {} ",rowDataset.count());
 
+        rowDataset.show();
 //        logger.info("count : {}",rowDataset.count());
-        rowDataset = transformer.transform(sparkSession, rowDataset);
-        genericMigrator.loadTo(rowDataset, migratorConfiguration.getSinkProps());
+//        rowDataset = transformer.transform(sparkSession, rowDataset);
+//        genericMigrator.loadTo(rowDataset, migratorConfiguration.getSinkProps());
 //        genericMigrator.loadAfterChunking(rowDataset,migratorConfiguration.getSinkProps(),sparkSession);
 
 //        while (true);s

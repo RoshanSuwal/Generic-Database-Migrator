@@ -1,62 +1,97 @@
-#sparkConfiguration:
-#  appName: Cassandra Migrator2222
-#  master: local[*]
+##sparkConfiguration:
+##  appName: Cassandra Migrator2222
+##  master: local[*]
+##
+##sourceProps:
+##  formats:
+##    - value: org.apache.spark.sql.cassandra
+##
+##  options:
+##    - key: spark.cassandra.connection.host
+##      value: 10.10.5.20
+##    - key: spark.cassandra.connection.port
+##      value: 8125
+##    - key: spark.cassandra.auth.username
+##      value: cassandra
+##    - key: spark.cassandra.auth.password
+##      value: cassandra
+##    - key: spark.cassandra.connection.ssl.keyStore.path
+##      value: /home/roshan/Desktop/nn1-server-keystore.jks
+##    - key: spark.cassandra.connection.ssl.keyStore.password
+##      value: cassandra
+##    - key: spark.cassandra.connection.ssl.trustStore.path
+##      value: /home/roshan/Desktop/generic-server-truststore.jks
+##    - key: spark.cassandra.connection.ssl.trustStore.password
+##      value: cassandra
+##    - key: keyspace
+##      value: fts
+##    - key: table
+##      value: chapter
+##    - key: spark.cassandra.connection.ssl.clientAuth.enabled
+##      value: true
+##    - key: spark.cassandra.connection.ssl.enabled
+##      value: true
+##    - key: spark.cassandra.input.consistency.level
+##      value: ALL
+##    - key: spark.cassandra.output.consistency.level
+##      value: ALL
+##    - key: spark.cassandra.read.timeoutMS
+##      value: 240000
+##
+##sinkProps:
+##  formats:
+##    - value: jdbc
+##  modes:
+##    - value : overwrite
+##  options:
+##    - key: driver
+##      value: org.postgresql.Driver
+##    - key: url
+##      value: jdbc:postgresql://localhost:54322/rad
+##    - key: dbtable
+##      value: chapter
+##    - key: user
+##      value: postgres
+##    - key: password
+##      value: root
+##
+##transformer : org.ekbana.cassandraMigrator.CustomTransformer
 #
-#sourceProps:
-#  formats:
-#    - value: org.apache.spark.sql.cassandra
 #
-#  options:
-#    - key: spark.cassandra.connection.host
-#      value: 10.10.5.20
-#    - key: spark.cassandra.connection.port
-#      value: 8125
-#    - key: spark.cassandra.auth.username
-#      value: cassandra
-#    - key: spark.cassandra.auth.password
-#      value: cassandra
-#    - key: spark.cassandra.connection.ssl.keyStore.path
-#      value: /home/roshan/Desktop/nn1-server-keystore.jks
-#    - key: spark.cassandra.connection.ssl.keyStore.password
-#      value: cassandra
-#    - key: spark.cassandra.connection.ssl.trustStore.path
-#      value: /home/roshan/Desktop/generic-server-truststore.jks
-#    - key: spark.cassandra.connection.ssl.trustStore.password
-#      value: cassandra
-#    - key: keyspace
-#      value: fts
-#    - key: table
-#      value: chapter
-#    - key: spark.cassandra.connection.ssl.clientAuth.enabled
-#      value: true
-#    - key: spark.cassandra.connection.ssl.enabled
-#      value: true
-#    - key: spark.cassandra.input.consistency.level
-#      value: ALL
-#    - key: spark.cassandra.output.consistency.level
-#      value: ALL
-#    - key: spark.cassandra.read.timeoutMS
-#      value: 240000
+#sparkConfiguration :
+#  configs :
+#    - key : spark.app.name
+#      value : cassandra migrator
+#    - key : spark.master
+#      value : spark://10.10.5.30:32650
+#    - key : spark.submit.deployMode
+#      value : client
 #
-#sinkProps:
-#  formats:
-#    - value: jdbc
-#  modes:
-#    - value : overwrite
-#  options:
-#    - key: driver
-#      value: org.postgresql.Driver
-#    - key: url
-#      value: jdbc:postgresql://localhost:54322/rad
-#    - key: dbtable
-#      value: chapter
-#    - key: user
-#      value: postgres
-#    - key: password
-#      value: root
+##sourceProps:
+##  formats:
+##    - value: jdbc
+##  modes:
+##    - value : append
+##  options:
+##    - key: driver
+##      value: org.postgresql.Driver
+##    - key: url
+##      value: jdbc:postgresql://10.10.5.25:5432/twitterdb
+##    - key: dbtable
+##      value: tweetsinfo
+##    - key: user
+##      value: twitter
+##    - key: password
+##      value: twitter123
+##    - key : fetchsize
+##      value : 1000
+##    - key : numPartitions
+##      value : 50
+##    - key : batchsize
+##      value : 1000
+##  filters:
+##    - "created_at < '2020-01-01 00:00:00'"
 #
-#transformer : org.ekbana.cassandraMigrator.CustomTransformer
-
 
 sparkConfiguration :
   configs :
@@ -67,43 +102,19 @@ sparkConfiguration :
     - key : spark.submit.deployMode
       value : client
 
-sourceProps:
-  formats:
-    - value: jdbc
-  modes:
-    - value : append
-  options:
-    - key: driver
-      value: org.postgresql.Driver
-    - key: url
-      value: jdbc:postgresql://10.10.5.25:5432/twitterdb
-    - key: dbtable
-      value: tweetsinfo
-    - key: user
-      value: twitter
-    - key: password
-      value: twitter123
-    - key : fetchsize
-      value : 1000
-    - key : numPartitions
-      value : 50
-    - key : batchsize
-      value : 1000
-  filters:
-    - "created_at < '2020-01-01 00:00:00'"
-# sinkProps :
-#   formats :
-#     - value : org.apache.spark.sql.cassandra
+sourceProps :
+   formats :
+     - value : org.apache.spark.sql.cassandra
 
-#   options :
-#     - key : spark.cassandra.connection.host
-#       value : 10.10.5.20
-#     - key : spark.cassandra.connection.port
-#       value : 8125
-#     - key : spark.cassandra.auth.username
-#       value : cassandra
-#     - key : spark.cassandra.auth.password
-#       value : cassandra
+   options :
+     - key : spark.cassandra.connection.host
+       value : 146.190.6.111
+     - key : spark.cassandra.connection.port
+       value : 32001
+     - key : spark.cassandra.auth.username
+       value : cassandra
+     - key : spark.cassandra.auth.password
+       value : cassandra
 #     - key : spark.cassandra.connection.ssl.keyStore.path
 #       value : /home/roshan/Desktop/nn1-server-keystore.jks
 #     - key : spark.cassandra.connection.ssl.keyStore.password
@@ -112,20 +123,131 @@ sourceProps:
 #       value : /home/roshan/Desktop/generic-server-truststore.jks
 #     - key : spark.cassandra.connection.ssl.trustStore.password
 #       value : cassandra
-#     - key : keyspace
-#       value : keyspace_var
-#     - key : table
-#       value: table_var
+     - key : keyspace
+       value : redditdb
+     - key : table
+       value: userinfo_postbydate
 #     - key : spark.cassandra.connection.ssl.clientAuth.enabled
 #       value : true
 #     - key: spark.cassandra.connection.ssl.enabled
 #       value: true
-#     - key: spark.cassandra.input.consistency.level
-#       value: LOCAL
-#     - key: spark.cassandra.output.consistency.level
-#       value: LOCAL
-#     - key: spark.cassandra.read.timeoutMS
-#       value: 240000
+     - key: spark.cassandra.input.consistency.level
+       value: ONE
+     - key: spark.cassandra.output.consistency.level
+       value: ONE
+     - key: spark.cassandra.read.timeoutMS
+       value: 24000
+#
+#sinkProps :
+#  formats:
+#    - value: org.apache.spark.sql.cassandra
+#  modes:
+#    - value: append
+#  options:
+#    - key: spark.cassandra.connection.host
+#      value: 146.190.6.111
+#    - key: spark.cassandra.connection.port
+#      value: 32001
+#    - key: spark.cassandra.auth.username
+#      value: cassandra
+#    - key: spark.cassandra.auth.password
+#      value: cassandra
+#      # - key: spark.cassandra.connection.ssl.keyStore.path
+#      #   value: /home/samir/Desktop/Cassandra/nn1-server-keystore.jks
+#      # - key: spark.cassandra.connection.ssl.keyStore.password
+#      #   value: cassandra
+#      # - key: spark.cassandra.connection.ssl.trustStore.path
+#      #   value: /home/samir/Desktop/Cassandra/generic-server-truststore.jks
+#      # - key: spark.cassandra.connection.ssl.trustStore.password
+#      # value: cassandra
+#    - key: keyspace
+#      value: bigmart
+#    - key: table
+#      value: v_site
+#      # - key: spark.cassandra.connection.ssl.clientAuth.enabled
+#      # value: true
+#      # - key: spark.cassandra.connection.ssl.enabled
+#      # value: true
+##    - key : spark.cassandra.output.concurrent.writes
+##      value : 2
+#
+##sinkProps :
+##   formats:
+##     - value: org.apache.spark.sql.cassandra
+##   modes:
+##     - value: append
+##   options:
+##     - key: spark.cassandra.connection.host
+##       value: 10.10.5.78
+##     - key: spark.cassandra.connection.port
+##       value: 32662
+##     - key: spark.cassandra.auth.username
+##       value: cassandra
+##     - key: spark.cassandra.auth.password
+##       value: cassandra
+##     # - key: spark.cassandra.connection.ssl.keyStore.path
+##     #   value: /home/samir/Desktop/Cassandra/nn1-server-keystore.jks
+##     # - key: spark.cassandra.connection.ssl.keyStore.password
+##     #   value: cassandra
+##     # - key: spark.cassandra.connection.ssl.trustStore.path
+##     #   value: /home/samir/Desktop/Cassandra/generic-server-truststore.jks
+##     # - key: spark.cassandra.connection.ssl.trustStore.password
+##       # value: cassandra
+##     - key: keyspace
+##       value: twitterdb
+##     - key: table
+##       value: tweetsinfo
+##     # - key: spark.cassandra.connection.ssl.clientAuth.enabled
+##       # value: true
+##     # - key: spark.cassandra.connection.ssl.enabled
+##       # value: true
+##     - key : spark.cassandra.output.concurrent.writes
+##       value : 2
+
+#sparkConfiguration :
+#  configs :
+#    - key : spark.app.name
+#      value : cassandra migrator
+#    - key : spark.master
+#      value : spark://10.10.5.30:32650
+#    - key : spark.submit.deployMode
+#      value : client
+
+#sourceProps :
+#  formats :
+#    - value : org.apache.spark.sql.cassandra
+#
+#  options :
+#    - key : spark.cassandra.connection.host
+#      value : 10.10.5.20
+#    - key : spark.cassandra.connection.port
+#      value : 8125
+#    - key : spark.cassandra.auth.username
+#      value : cassandra
+#    - key : spark.cassandra.auth.password
+#      value : cassandra
+#    - key : spark.cassandra.connection.ssl.keyStore.path
+#      value : /opt/nn1-server-keystore.jks
+#    - key : spark.cassandra.connection.ssl.keyStore.password
+#      value : cassandra
+#    - key : spark.cassandra.connection.ssl.trustStore.path
+#      value : /opt/generic-server-truststore.jks
+#    - key : spark.cassandra.connection.ssl.trustStore.password
+#      value : cassandra
+#    - key : keyspace
+#      value : bigmart
+#    - key : table
+#      value: v_site
+#    - key : spark.cassandra.connection.ssl.clientAuth.enabled
+#      value : true
+#    - key: spark.cassandra.connection.ssl.enabled
+#      value: true
+#    - key: spark.cassandra.input.consistency.level
+#      value: ALL
+#    - key: spark.cassandra.output.consistency.level
+#      value: ALL
+#    - key: spark.cassandra.read.timeoutMS
+#      value: 240000
 
 sinkProps :
   formats:
@@ -134,9 +256,9 @@ sinkProps :
     - value: append
   options:
     - key: spark.cassandra.connection.host
-      value: localhost
+      value: 146.190.6.111
     - key: spark.cassandra.connection.port
-      value: 9042
+      value: 32001
     - key: spark.cassandra.auth.username
       value: cassandra
     - key: spark.cassandra.auth.password
@@ -150,45 +272,10 @@ sinkProps :
       # - key: spark.cassandra.connection.ssl.trustStore.password
       # value: cassandra
     - key: keyspace
-      value: fts
+      value: bigmart
     - key: table
-      value: tweetsinfo
+      value: v_site
       # - key: spark.cassandra.connection.ssl.clientAuth.enabled
       # value: true
       # - key: spark.cassandra.connection.ssl.enabled
       # value: true
-#    - key : spark.cassandra.output.concurrent.writes
-#      value : 2
-
-#sinkProps :
-#   formats:
-#     - value: org.apache.spark.sql.cassandra
-#   modes:
-#     - value: append
-#   options:
-#     - key: spark.cassandra.connection.host
-#       value: 10.10.5.78
-#     - key: spark.cassandra.connection.port
-#       value: 32662
-#     - key: spark.cassandra.auth.username
-#       value: cassandra
-#     - key: spark.cassandra.auth.password
-#       value: cassandra
-#     # - key: spark.cassandra.connection.ssl.keyStore.path
-#     #   value: /home/samir/Desktop/Cassandra/nn1-server-keystore.jks
-#     # - key: spark.cassandra.connection.ssl.keyStore.password
-#     #   value: cassandra
-#     # - key: spark.cassandra.connection.ssl.trustStore.path
-#     #   value: /home/samir/Desktop/Cassandra/generic-server-truststore.jks
-#     # - key: spark.cassandra.connection.ssl.trustStore.password
-#       # value: cassandra
-#     - key: keyspace
-#       value: twitterdb
-#     - key: table
-#       value: tweetsinfo
-#     # - key: spark.cassandra.connection.ssl.clientAuth.enabled
-#       # value: true
-#     # - key: spark.cassandra.connection.ssl.enabled
-#       # value: true
-#     - key : spark.cassandra.output.concurrent.writes
-#       value : 2

@@ -17,6 +17,10 @@ public class Props implements Serializable {
     public List<Format> formats;
     public List<Mode> modes;
 
+    public String load;
+
+
+
     public List<String> getFilters() {
         return filters;
     }
@@ -35,13 +39,15 @@ public class Props implements Serializable {
         return modes;
     }
 
+    public String getLoad(){return load;}
+
     @Setter
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Option implements Serializable {
-        private String key;
-        private String value;
+        public String key;
+        public String value;
         public String getKey() {
             return key.trim();
         }
@@ -55,7 +61,7 @@ public class Props implements Serializable {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Format implements Serializable {
-        private String value;
+        public String value;
         public String getValue() {
             return value.trim();
         }
@@ -66,7 +72,7 @@ public class Props implements Serializable {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Mode implements Serializable {
-        String value;
+        public String value;
         public String getValue() {
             return value.trim();
         }

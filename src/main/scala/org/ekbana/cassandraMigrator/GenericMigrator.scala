@@ -12,22 +12,33 @@ class GenericMigrator {
     var df = sparkSession.read
     logger.info("Configuring the source spark dataframe")
     logger.info("sparkSession.read")
-    sourceProps.getFormats.forEach(x => {
-      df = df.format(x.getValue.trim)
-      logger.info("\t.format( {} )", x.getValue)
-    })
-    sourceProps.options.forEach(x => {
-      df = df.option(x.getKey.trim, x.getValue.trim)
-      logger.info(s"\t.option( ${x.getKey} , ${x.getValue} ) ")
-    })
 
-    logger.info("\t.load()")
-    var dataFrame = df.load()
+    if (sourceProps.formats!=null) {
+      sourceProps.formats.forEach(x => {
+        df = df.format(x.getValue.trim)
+        logger.info("\t.format( {} )", x.getValue)
+      })
+    }
 
-    sourceProps.filters.forEach(x=>{
-      logger.info(s"\t.filter( ${x})")
-      dataFrame=dataFrame.filter(x);
-    })
+    if (sourceProps.options!=null) {
+      sourceProps.options.forEach(x => {
+        df = df.option(x.getKey.trim, x.getValue.trim)
+        logger.info(s"\t.option( ${x.getKey} , ${x.getValue} ) ")
+      })
+    }
+
+    if(sourceProps.load==null)
+      logger.info("\t.load()")
+    else logger.info(s"\t.load(${sourceProps.load})")
+
+    var dataFrame = if (sourceProps.load==null ) df.load() else df.load(sourceProps.load)
+
+    if (sourceProps.filters !=null) {
+      sourceProps.filters.forEach(x => {
+        logger.info(s"\t.filter( ${x})")
+        dataFrame = dataFrame.filter(x);
+      })
+    }
 
     dataFrame
   }

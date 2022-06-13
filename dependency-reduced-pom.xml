@@ -71,7 +71,9 @@
     </plugins>
   </build>
   <properties>
+    <spark.core.version>2.12</spark.core.version>
     <maven.compiler.source>8</maven.compiler.source>
+    <spark.version>3.1.0</spark.version>
     <maven.compiler.target>8</maven.compiler.target>
   </properties>
 </project>

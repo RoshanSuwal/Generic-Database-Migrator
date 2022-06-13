@@ -13,11 +13,14 @@ class SparkConnection {
 
     val sparkConf=new SparkConf();
     logger.info("Configuring SparkSession")
+    println("Configuring SparkSession")
     sparkConfiguration.configs.forEach( config => {
       sparkConf.set(config.getKey, config.getValue);
-      logger.info(s"sparkConfig( ${config.getKey} , ${config.getValue})");
+      logger.info(s"sparkConfig.set( ${config.getKey} , ${config.getValue})");
+      println(s"sparkConfig.set( ${config.getKey} , ${config.getValue})");
     })
     logger.info("\t.getOrCreate()")
+    println("SparkSession.builder().config(sparkConf).getOrCreate()")
     SparkSession.builder().config(sparkConf).getOrCreate()
 //    val spark: SparkSession = SparkSession
 //      .builder()
