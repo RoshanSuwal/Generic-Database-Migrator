@@ -61,12 +61,15 @@ public class DatabaseMigrator {
 
 //        logger.info("Total records count : {} ",rowDataset.count());
 
-        rowDataset.show();
 //        logger.info("count : {}",rowDataset.count());
-//        rowDataset = transformer.transform(sparkSession, rowDataset);
-//        genericMigrator.loadTo(rowDataset, migratorConfiguration.getSinkProps());
+        rowDataset = transformer.transform(sparkSession, rowDataset);
+        rowDataset.printSchema();
+        rowDataset.show(false);
+        genericMigrator.loadTo(rowDataset, migratorConfiguration.getSinkProps());
 //        genericMigrator.loadAfterChunking(rowDataset,migratorConfiguration.getSinkProps(),sparkSession);
 
+        sparkSession.cloneSession();
+        sparkSession.close();
 //        while (true);s
     }
 }
