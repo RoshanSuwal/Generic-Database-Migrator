@@ -22,9 +22,9 @@ sourceProps:
 
   options:
     - key: spark.cassandra.connection.host
-      value: 10.10.5.20
+      value: localhost
     - key: spark.cassandra.connection.port
-      value: 8125
+      value: 9042
     - key: spark.cassandra.auth.username
       value: cassandra
     - key: spark.cassandra.auth.password
