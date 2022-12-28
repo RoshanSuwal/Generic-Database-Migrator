@@ -76,3 +76,4 @@ transformer : name of transformer
 - runs only in java-8
 - table names must match in source and destination
 - only the tables from one keyspace can be extracted and dumped too
+- default transformer is used if not given
