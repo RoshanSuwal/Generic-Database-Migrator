@@ -1,6 +1,6 @@
-#CASSANDRA MIGRATOR
+# Generic Database Migrator
 
-Migrates data between the cassandra tables using spark.
+A general solution to data migration using spark with data filtering, processing and transforming facilities.
 
 ### how to run?
 ```
@@ -8,42 +8,9 @@ java8 -Dconfig=path_to_config.yml -jar CassandraMigrator-1.0-SNAPSHOT.jar
 ```
 
 ### Yaml File configuration
-```
-## configuration of spark
-sparkConfiguration :
-  appName : Cassandra Migrator
-  master : local[*]
 
-## configuration of cassandra source
-cassandraSource:
-  host : source host address
-  port : source host port
-  username : user
-  password : password
-  keyStorePath : /path
-  keyStorePassword : key-store-password
-  trustStorePath : /path
-  trustStorePassword : trust-store-password
-  keyspace : key space
-  tables : tablenames separated by comma(,)
-  enableSSL : false # true if ssl is enabled
+- sample configuration file to migrate data from cassandra  table to postgresql table.
 
-## configuration of cassandra destination
-cassandraDestination:
-  host : destination host address
-  port : destination port
-  username : user
-  password : password
-  keyStorePath : /path
-  keyStorePassword : key-store-password
-  trustStorePath : /path
-  trustStorePassword : trust-store-password
-  keyspace : keyspace name
-  tables : tablenames separated by comma(,)
-  enableSSL : false  # true if ssl is enabled
- 
-```
-### Configuration for Version 3
 ```
 sparkConfiguration:
   appName: spark app name
